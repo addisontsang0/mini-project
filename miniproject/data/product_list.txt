@@ -1,0 +1,11 @@
+Cappuccino
+Latte
+Flat White
+Ham Sandwich
+Cheese Sandwich
+Egg Sandwich
+Chicken Sandwich
+Still Water
+Sparking Water
+Coke
+Orange Juice
