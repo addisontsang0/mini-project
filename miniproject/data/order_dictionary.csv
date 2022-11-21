@@ -1,8 +1,7 @@
-"customer_name", "customer_address", "customer_phone", "Status"
-Addison,M3 3EY,88273652415,PREPARING
-Vaness Man,M1 2AB,712345678,PREPARING
-Samuel,M2 5AT,7568473921,PREPARING
-Terry,M50 5HJ,7383828432,PREPARING
-Anson,Hong Kong,85237284927,PREPARING
-Jonana,Manchester,7635344729,PREPARING
-Addison,Manchester,736353637448,PREPARING
+Customer Name,Customer Address,Customer Phone,Courier,Status,Items
+Addison,M2 5AA,7564228573,1,PREPARING,"1, 3, 4"
+Tony,M22 4HJ,7385738561,2,PREPARING,"2, 6, 7"
+Peter,M45 6TP,7263857390,3,Delivered,8
+Chloe,BB12 9TR,7827354542,4,Out-For-Delivery,"6, 7"
+Vaness,M23 8YU,7657389932,4,PREPARING,"7, 9"
+May,L14 2AB,7856473999,3,Delivered,"4, 5, 6, 7, 8, 9"

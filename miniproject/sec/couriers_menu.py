@@ -1,3 +1,6 @@
+import csv
+import readCSVtoDict
+
 def couriers_menu():
     
     couriers_looping = True
@@ -10,33 +13,66 @@ def couriers_menu():
             break
         
         elif couriers_menu_option == 1:
-            with open("data/courier_list.txt", 'r') as file:
-                row = file.read()
-                print(row)
+            with open("data/courier_list.csv", "r") as file:
+                    csv_file = csv.DictReader(file)
+                    for row in csv_file:
+                        print(row)
         
         elif couriers_menu_option == 2:
             
-            courier_name = str(input("Please enter the courier name: \n"))
+            courier_name = str(input("Please enter courier name: \n"))
+            courier_phone = str(input("Please enter courier phone number: \n"))
             
-            with open("data/courier_list.txt", "a+") as fileHandler:
-                    fileHandler.write("{}\n".format(courier_name))
-                        
-            fileHandler.close()
+            with open("data/courier_list.csv", mode = "a+") as file:
+                    fieldnames = ["Name", "Phone"]
+                    writer = csv.DictWriter(file, fieldnames = fieldnames) 
+                    writer.writerow({
+                                "Name": courier_name,
+                                "Phone": courier_phone
+                                })
         
         elif couriers_menu_option == 3:
-            with open("data/courier_list.txt", "r") as file:
-                    courier_list = [x.strip() for x in file.readlines()]
+            local_list = []
+            local_list = readCSVtoDict.readcourierCSVtoDict()
                     
-            for i, e in enumerate(courier_list):
-                    print(f"[{i+1}]: {e}")
+            for i, item in enumerate(local_list):
+                print(f"({i+1}) --  {item}")
                     
-            courier_index_update = int(input("Please enter index of product: \n"))
-            new_courier_name = str(input("Please add product in order.\n"))
-            courier_list.remove(courier_index_update)
+            courier_index_update = int(input("Please enter Courier's index for update: \n"))
+            courier_index_update -= 1
+     
+            print(f'Selected {local_list[courier_index_update]} to update')
+            for updateProperty in local_list[courier_index_update]:
+                selectProperty = input(f'Enter update for {updateProperty}: ')
+                if (len(selectProperty) != 0):
+                    local_list[courier_index_update][updateProperty] = selectProperty
+                    print(f'{updateProperty} has been update to {selectProperty}')
+                        
+                else:
+                    print(f'Skip update for {updateProperty}')
+            
+            print(local_list)        
+                
+            with open("data/courier_list.csv", mode = "w") as file:
+                fieldnames = ['Name', 'Phone']
+                writer = csv.DictWriter(file, fieldnames= fieldnames)
+                writer.writeheader()
+                writer.writerows(local_list)
         
         elif couriers_menu_option == 4:
-                with open("data/courier_list.txt", "r") as file:
-                    courier_list = [x.strip() for x in file.readlines()]
-                    print(courier_list)
-                courier_index_delete = int(input("Please enter index of product: \n"))
-                courier_list.remove(courier_index_delete)
+            local_list = []
+            local_list = readCSVtoDict.readcourierCSVtoDict()
+                    
+            for i, item in enumerate(local_list):
+                print(f"({i+1}) --  {item}")
+                    
+            courier_index_delete = int(input("Please enter Courier's index for delete: \n"))
+            courier_index_delete -= 1
+            print(f'Selected {local_list[courier_index_delete]} to delete')
+            local_list.remove(local_list[courier_index_delete])
+            
+            with open("data/courier_list.csv", mode = "w") as file:
+                fieldnames = ['Name', 'Phone']
+                writer = csv.DictWriter(file, fieldnames= fieldnames)
+                writer.writeheader()
+                writer.writerows(local_list)

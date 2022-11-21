@@ -1,10 +1,13 @@
+import csv
+import readCSVtoDict
+
 def product_menu():
-    customer_order_list = []
+    
     
     product_looping = True
     while product_looping:
     
-        product_menu_option = int(input("1 -- Product Menu\n2 -- Create Order\n3 -- Update Product list\n4 -- Delete Product\n0 -- Exit Order Menu\n--------------\nPlease enter number :  "))
+        product_menu_option = int(input("1 -- Product Menu\n2 -- Create Product\n3 -- Update Product\n4 -- Delete Product\n0 -- Exit Order Menu\n--------------\nPlease enter number :  "))
         # Type 0 for going back main menu
                 
         if product_menu_option == 0:
@@ -14,50 +17,72 @@ def product_menu():
                     
         elif product_menu_option == 1:
             # Product list
-                file = open("data/product_list.txt", 'r')
-                row = file.read()
-                print(row)
+                with open("data/product_list.csv", 'r') as file:
+                    csv_file = csv.DictReader(file)
+                    for row in csv_file:
+                        print(row)
                     
         elif product_menu_option == 2:
                         
                 for x in range(1):
-                    order_list = input("What would you like to order?\n")
-                    customer_order_list = order_list.split(", ")
-                    print("Your order {} item(s): ".format(len(customer_order_list)), customer_order_list)
+                    order_product_name = str(input("What product would you like to add?\n"))
+                    order_product_price = float(input("Please enter product price.\n"))
                             
-                for i in range(len(customer_order_list)):
-                    customer_order_list[i] = str(customer_order_list[i])
-                            
-                with open("data/order_list.txt", "a+") as fileHandler:
-                    fileHandler.write("{}\n".format(order_list))
+                with open("data/product_list.csv", "a+") as file:
+                    fieldnames = ["Name", "Price"]
+                    writer = csv.DictWriter(file, fieldnames=fieldnames)
+                    writer.writerow({
+                        "Name": order_product_name,
+                        "Price": order_product_price
+                    })
                         
-                fileHandler.close()
-                            
-                        
+                             
         elif product_menu_option == 3:
-
-                with open("data/order_list.txt", "r") as file:
-                    customer_order_list = [x.strip() for x in file.readlines()]
+            local_list = []
+            local_list = readCSVtoDict.readCSVtoDict()
                     
-                for i, e in enumerate(customer_order_list):
-                    print(f"[{i+1}]: {e}")
+            for i, item in enumerate(local_list):
+                print(f"({i+1}) --  {item}")
                     
-                item_index_update = int(input("Please enter index of product: \n"))
-                new_order_product = str(input("Please add product in order.\n"))
-                customer_order_list.remove(item_index_update)
-                # customer_order_list.append(new_order_product)
+            item_index_update = int(input("Please enter product's index for update: \n"))
+            item_index_update -= 1
+     
+            print(f'Selected {local_list[item_index_update]} to update')
+            for updateProperty in local_list[item_index_update]:
+                selectProperty = input(f'Enter update for {updateProperty}: ')
+                if (len(selectProperty) != 0):
+                    local_list[item_index_update][updateProperty] = selectProperty
+                    print(f'{updateProperty} has been update to {selectProperty}')
                         
-                # with open("data/order_list.txt", "w+") as file:
-                #     for e in customer_order_list:
-                #         file.write(f"{e}\n")
-                        
-                        
-                # print("{} has been added in your order now.".format(new_order_product))
+                else:
+                    print(f'Skip update for {updateProperty}')
+            
+            print(local_list)        
+                
+            with open("data/product_list.csv", mode = "w") as file:
+                fieldnames = ['Name', 'Price']
+                writer = csv.DictWriter(file, fieldnames= fieldnames)
+                writer.writeheader()
+                writer.writerows(local_list)
+                    
 
                         
         elif product_menu_option == 4:
-                with open("data/order_list.txt", "r") as file:
-                    customer_order_list = [x.strip() for x in file.readlines()]
-                    print(customer_order_list)
-                item_index_delete = int(input("Please enter index of product: \n"))
-                customer_order_list.remove(item_index_delete)
+            local_list = []
+            local_list = readCSVtoDict.readCSVtoDict()
+                    
+            for i, item in enumerate(local_list):
+                print(f"({i+1}) --  {item}")
+                    
+            item_index_delete = int(input("Please enter product's index for delete: \n"))
+            item_index_delete -= 1
+            print(f'Selected {local_list[item_index_delete]} to delete')
+            local_list.remove(local_list[item_index_delete])
+            
+            with open("data/product_list.csv", mode = "w") as file:
+                fieldnames = ['Name', 'Price']
+                writer = csv.DictWriter(file, fieldnames= fieldnames)
+                writer.writeheader()
+                writer.writerows(local_list)
+                
+            print("The product has been deleted")
