@@ -1,7 +1,6 @@
 Customer Name,Customer Address,Customer Phone,Courier,Status,Items
-Addison,M2 5AA,7564228573,1,PREPARING,"1, 3, 4"
 Tony,M22 4HJ,7385738561,2,PREPARING,"2, 6, 7"
-Peter,M45 6TP,7263857390,3,Delivered,8
 Chloe,BB12 9TR,7827354542,4,Out-For-Delivery,"6, 7"
-Vaness,M23 8YU,7657389932,4,PREPARING,"7, 9"
 May,L14 2AB,7856473999,3,Delivered,"4, 5, 6, 7, 8, 9"
+Ramon,L23 0FF,7263542867,2,Out-For-Delivery,"10, 4, 7"
+Joana,M8 6TY,7645382956,1,Out-For-Delivery,"1, 2, 3,5 ,8 ,9"
